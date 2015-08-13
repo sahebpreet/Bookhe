@@ -1,19 +1,39 @@
 package com.bookhe.book.dto;
 
 public class Book {
-	String ISBN;
-	String name;
-	String author;
-	String publisher;
-	String edition;
-	float cost;
-	String category;
+	private String ISBN;
+	private String name;
+	private String author;
+	private String publisher;
+	private String edition;
+	private float cost;
+	private String category;
+	private String ebookUrl;
+	private String bookImageUrl;
+
+	public String getEbookUrl() {
+		return ebookUrl;
+	}
+
+	public void setEbookUrl(String ebookUrl) {
+		this.ebookUrl = ebookUrl;
+	}
+
+	public String getBookImageUrl() {
+		return bookImageUrl;
+	}
+
+	public void setBookImageUrl(String bookImageUrl) {
+		this.bookImageUrl = bookImageUrl;
+	}
+
 	public Book(){
-		this("1","book","knight","wesley","1.0v",1000,"funt");
+		this("1","book","knight","wesley","1.0v",1000,"funt","http://","http://");
 		System.out.println("Blank details");
 	}
 	
-	public Book(String iSBN, String name, String author, String publisher,String edition, float cost, String category) {
+	public Book(String iSBN, String name, String author, String publisher,String edition, float cost, String category,
+			String ebookUrl,String bookImageUrl) {
 		ISBN = iSBN;
 		this.name = name;
 		this.author = author;
@@ -21,6 +41,8 @@ public class Book {
 		this.edition = edition;
 		this.cost = cost;
 		this.category = category;
+		this.bookImageUrl = bookImageUrl;
+		this.ebookUrl = ebookUrl;
 	}
 	
 	public boolean validateContents(){
