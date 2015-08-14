@@ -6,7 +6,7 @@ public class Book {
 	private String author;
 	private String publisher;
 	private String edition;
-	private float cost;
+	private double cost;
 	private String category;
 	private String ebookUrl;
 	private String bookImageUrl;
@@ -32,9 +32,9 @@ public class Book {
 		System.out.println("Blank details");
 	}
 	
-	public Book(String iSBN, String name, String author, String publisher,String edition, float cost, String category,
+	public Book(String ISBN, String name, String author, String publisher,String edition, double cost, String category,
 			String ebookUrl,String bookImageUrl) {
-		ISBN = iSBN;
+		this.ISBN = ISBN;
 		this.name = name;
 		this.author = author;
 		this.publisher = publisher;
@@ -100,7 +100,7 @@ public class Book {
 		this.edition = edition;
 	}
 
-	public float getCost() {
+	public double getCost() {
 		return cost;
 	}
 
