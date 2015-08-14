@@ -22,5 +22,13 @@
      	<property name="username" value="root"/>
      	<property name="password" value=""/>
      </bean>
-     
+
+
+	<bean name="BookDAOBean" class="com.bookhe.book.dao.BookDAOImpl">
+		<property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean name="UserRegisterDAOBean" class="com.bookhe.user.dao.UserRegisterDAOImpl">
+    	<property name="dataSource" ref="dataSource"/>
+    </bean>
 </beans>
