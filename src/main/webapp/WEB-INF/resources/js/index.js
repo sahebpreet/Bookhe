@@ -14,7 +14,7 @@ $( function() {
 	        },
 	        submitSuccess: function($form, event) {
 	            event.preventDefault();
-	            var userName = $("input#login-username").val();
+	            var userName = $("input#login-email").val();
 	            var password = $("input#login-password").val();
 	            $.ajax({
 	                url: "/Bookhe/login",
@@ -26,6 +26,7 @@ $( function() {
 	                },
 	                cache: false,
 	                success: function( data ) {
+	                	console.log( data );
 	                	if( data.success ) {
 	                		location.reload();
 	                	} else {
@@ -40,7 +41,7 @@ $( function() {
 	                		
 	                	}
 	                },
-	                error: function() {
+	                error: function( error ) {
 	                    // Fail message
 	                    $('#login-result').html("<div class='alert alert-danger'>");
 	                    $('#login-result > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
