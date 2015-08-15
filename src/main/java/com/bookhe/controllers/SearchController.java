@@ -22,6 +22,7 @@ public class SearchController {
 		SearchService searchService = new SearchService( ( SearchDAO )ac.getBean( "sdi" ) );
 		ArrayList<Book> results = searchService.search( keyword, location );
 		model.addAttribute( "searchResults", results );
+		model.addAttribute( "keywords", keyword );
 		return "search/searchResults";
 	}
 }

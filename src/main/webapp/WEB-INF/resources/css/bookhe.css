@@ -1,0 +1,53 @@
+.modal
+{
+	background-color: white;
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 6%;
+	height: 72%;
+	text-align: center;
+}
+
+.modal .btn
+{
+    float: right;
+    margin-top: 30px;
+}
+
+.searchbar
+{
+    position: absolute;
+    top: 328px;
+    width: 60%;
+    margin-left: 20%;
+    background-color: white;
+}
+
+.bookResult
+{
+	width:30%;
+	float: left;
+	text-align: center;
+	margin: 1%;
+}
+
+.bookResult .bookName
+{
+	font-size: 150%;
+}
+
+.bookResult .bookAuthor
+{
+	font-size: 100%;
+}
+
+.bookResult .bookPublisher
+{
+	font-size: 75%;
+}
+
+.bookResult .bookImage
+{
+    height: 150px;
+    width: 150px;
+}

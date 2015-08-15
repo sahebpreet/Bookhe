@@ -39,8 +39,8 @@ public class SearchDAOImpl implements SearchDAO{
 		
 		SqlRowSet srs=jdbcTemplate.queryForRowSet(final_query);
 		ArrayList<Book> books=new ArrayList<Book>();
-		
-		for(srs.first();!srs.isAfterLast();srs.next())
+
+		while( srs.next() )
 		{
 			Book b=new Book(srs.getString(2), srs.getString(3), srs.getString(4), srs.getString(5), srs.getString(6), srs.getDouble(9), srs.getString(8), srs.getString(7), srs.getString(10));
 			books.add(b);
