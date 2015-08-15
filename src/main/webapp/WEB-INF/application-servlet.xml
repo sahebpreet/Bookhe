@@ -14,14 +14,6 @@
 
    <context:component-scan base-package="com.bookhe.controllers" />
 
-   <bean name="bdi" class="com.bookhe.book.dao.BorrowerDAOImpl">
-		<property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <bean name="sdi" class="com.bookhe.search.dao.SearchDAOImpl">
-		<property name="dataSource" ref="dataSource"/>
-    </bean>
-
    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
       <property name="prefix" value="/WEB-INF/jsp/" />
       <property name="suffix" value=".jsp" />
