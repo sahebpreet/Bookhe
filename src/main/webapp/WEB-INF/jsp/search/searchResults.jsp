@@ -71,7 +71,7 @@
 	                		<div class="bookName">${book.name}</div>
 	                		<div class="bookAuthor">Author: ${book.author}</div>
 	                		<div class="bookPublisher">Published By: ${book.publisher}</div>
-	                		<div class="btn btn-default">Borrow Book</div>
+	                		<div id="borrowBook" isbn="${book.ISBN}" class="btn btn-default" href="${user==null ? "#loginModal" : "#" }" data-toggle="modal">Borrow Book</div>
 	                	</div>
                 	</c:forEach>
                	</div>
@@ -96,6 +96,9 @@
  		<c:otherwise>
 			<!-- Share Book Modal -->
 			<jsp:include page="../shareBookModal.jsp"></jsp:include>
+
+			<!-- Borrow Success Modal -->
+			<jsp:include page="../borrowSuccessModal.jsp"></jsp:include>
  		</c:otherwise>
 	</c:choose>
 
@@ -112,6 +115,20 @@
     <!-- Custom Theme JavaScript -->
     <script src="/Bookhe/s/js/clean-blog.min.js"></script>
     <script src="/Bookhe/s/js/index.js"></script>
+    <c:if test="${user!=null}">
+		<!-- Script for Borrowing Book -->
+		<script>
+			$( function() {
+				$('#borrowBook').click( function() {
+					var borrowBook = $(this);
+					$.get( "/Bookhe/borrow?isbn=" + $(this).attr("isbn") + "&borrowerUsername=${user.emailId}", function() {
+						$(borrowBook).parent().hide();
+						$("#borrowSuccessModal").modal("show");
+					} );
+				});
+			});
+		</script>
+    </c:if>
 
 </body>
 
