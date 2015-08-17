@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.bookhe.user.UserService;
+import com.bookhe.user.dto.Address;
 import com.bookhe.user.dto.User;
 
 @Controller
@@ -40,5 +41,34 @@ public class UserController {
 	public String logoutUser( SessionStatus status ) {
 		status.setComplete();
 		return "redirect:/s/index";
+	}
+
+	@RequestMapping(value="/register", method=RequestMethod.POST)
+	public String registerUser(@RequestParam(value="fullName", required=false) String name,
+			@RequestParam(value="street", required=false) String street,
+			@RequestParam(value="city", required=false) String city,
+			@RequestParam(value="state", required=false) String state,
+			@RequestParam(value="contactno", required=false) String contactno,
+			@RequestParam(value="emailId", required=false) String emailId,
+			@RequestParam(value="password", required=false) String password, Model model
+			)
+	{
+		User user=new User();
+
+		Address address=new Address(street, city, state);
+
+		user.setName(name);
+		user.setAddress(address);
+		user.setEmailId(emailId);
+		user.setPassword(password);
+		user.setContactNumber(contactno);
+
+		UserService userService = new UserService();
+		userService.registerUser(user);
+
+		model.addAttribute( "success", true );
+		model.addAttribute( "user", user );
+
+		return "user/loginResult";
 	}
 }
