@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import com.bookhe.book.dto.Book;
 import com.bookhe.user.dto.Address;
@@ -39,13 +40,13 @@ public class UserRegisterDAOImpl implements UserRegisterDAO{
 			String addsql="insert into address_user(Street,City,State) values(?,?,?)";
 			Address add = user.getAddress();
 			jdbcTemplate.update(addsql,new Object[]{add.getStreet(),add.getCity(),add.getState()});
-			
+
 			String qry="select Address_id from address_user where Street=? AND City=? AND State=?";
 			int address_id=jdbcTemplate.queryForInt(qry, new Object[]{add.getStreet(),add.getCity(),add.getState()});
-			
-			String sql="insert into user(Username,Contact,Password,Address_id,Points) values(?,?,?,?,?)";
+
+			String sql="insert into user(Username,Contact,Password,Address_id,Points,Name) values(?,?,?,?,?,?)";
 			jdbcTemplate.update(sql,new Object[]{user.getEmailId(),
-					user.getContactNumber(),user.getPassword(),address_id,user.getPoints()
+					user.getContactNumber(),user.getPassword(),address_id,user.getPoints(),user.getName()
 					});
 		}
 		else{
@@ -57,7 +58,7 @@ public class UserRegisterDAOImpl implements UserRegisterDAO{
 		public User mapRow(ResultSet rs,int rowNo) throws SQLException{
 			System.out.println("warning : book Image Url is not added in the DB but still is in the dto");
 			User user = new User();
-			
+
 			//book mapper code must be added here
 			Book book = new Book(
 					rs.getString("ISBN"),rs.getString("book_name"),rs.getString("book_author"),
@@ -67,23 +68,67 @@ public class UserRegisterDAOImpl implements UserRegisterDAO{
 			return user;
 		}
 	}
-	public boolean validateUser(User user){
+
+	public User validateUser(User user){
 		String emailId = user.getEmailId();
 		String password = user.getPassword();
 		try{
 			String pass = jdbcTemplate.queryForObject("select password from user where username=?",
 					new Object[]{emailId},String.class);
 			if(pass.equals(password)){
-				return true;
+				user=getUserByUsername(emailId);
+				return user;
 			}
 			else{
-				return false;
+				return null;
 			}
 			//jdbcTemplate.queryForInt("select * from user where username=? and password=?",emailId,password);
 		}
 		catch(EmptyResultDataAccessException e){
 			e.printStackTrace();
-			return false;
+			return null;
+		}
+	}
+
+	//Returns the user object when the emailid/username is passed
+	public User getUserByUsername(String username)
+	{
+		try
+		{
+			String queryUser="select * from user where Username='"+username+"'";
+
+			SqlRowSet srs=jdbcTemplate.queryForRowSet(queryUser);
+
+			User user=new User();
+
+			//Moving to the first row
+			srs.first();
+
+			//Getting the address id to get the address of the user
+			int addressId=srs.getInt(5);
+
+			user.setEmailId(username);
+			user.setContactNumber(srs.getString(3));
+			user.setPassword(srs.getString(4));
+			user.setPoints(srs.getInt(6));
+			user.setName(srs.getString(7));
+
+			String queryAddress="select * from address_user where Address_Id="+addressId;
+
+			srs=jdbcTemplate.queryForRowSet(queryAddress);
+
+			//Move to first row for address
+			srs.first();
+
+			Address address=new Address(srs.getString(2), srs.getString(3), srs.getString(4));
+
+			user.setAddress(address);
+			return user;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return null;
 		}
 	}
 

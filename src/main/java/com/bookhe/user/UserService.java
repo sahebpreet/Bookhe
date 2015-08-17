@@ -11,7 +11,7 @@ public class UserService {
 		UserRegisterDAOImpl userRegisterDAOImpl = (UserRegisterDAOImpl) applicationContext.getBean("UserRegisterDAOBean");
 		userRegisterDAOImpl.registerUser(user);
 	}
-	public boolean validateUser(User user){
+	public User validateUser(User user){
 		ApplicationContext applicationContext = SingletonApplicationContext.getApplicationContext();
 		UserRegisterDAOImpl userRegisterDAOImpl = (UserRegisterDAOImpl) applicationContext.getBean("UserRegisterDAOBean");
 		return userRegisterDAOImpl.validateUser(user);
