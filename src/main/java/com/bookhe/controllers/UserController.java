@@ -23,7 +23,8 @@ public class UserController {
 		User user = new User();
 		user.setEmailId( emailId );
 		user.setPassword( password );
-		if( userService.validateUser( user ) ) {
+		user=userService.validateUser( user );
+		if( user !=null) {
 			model.addAttribute( "success", true );
 			model.addAttribute( "user", user );
 		} else {
@@ -53,22 +54,33 @@ public class UserController {
 			@RequestParam(value="password", required=false) String password, Model model
 			)
 	{
-		User user=new User();
+		try
+		{
+			User user=new User();
 
-		Address address=new Address(street, city, state);
+			Address address=new Address(street, city, state);
 
-		user.setName(name);
-		user.setAddress(address);
-		user.setEmailId(emailId);
-		user.setPassword(password);
-		user.setContactNumber(contactno);
+			user.setName(name);
+			user.setAddress(address);
+			user.setEmailId(emailId);
+			user.setPassword(password);
+			user.setContactNumber(contactno);
 
-		UserService userService = new UserService();
-		userService.registerUser(user);
+			UserService userService = new UserService();
+			userService.registerUser(user);
 
-		model.addAttribute( "success", true );
-		model.addAttribute( "user", user );
+			model.addAttribute( "success", true );
+			model.addAttribute( "user", user );
 
-		return "user/loginResult";
+			return "user/loginResult";
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+
+			model.addAttribute( "success", false );
+			model.addAttribute( "user", null );
+
+			return "user/loginResult";
+		}
 	}
 }
