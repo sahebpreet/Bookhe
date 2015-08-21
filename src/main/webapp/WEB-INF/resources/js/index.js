@@ -27,7 +27,7 @@ $( function() {
 	                cache: false,
 	                success: function( data ) {
 	                	if( data.success ) {
-	                		$(location).attr('href', '/Bookhe/userProfile')
+	                		$(location).attr('href', '/Bookhe/userProfile');
 	                	} else {
 	                		// Fail message
 		                    $('#login-result').html("<div class='alert alert-danger'>");
@@ -50,7 +50,7 @@ $( function() {
 	                    //clear all fields
 	                    $('#loginForm').trigger("reset");
 	                },
-	            })
+	            });
 	        },
 	        filter: function() {
 	            return $(this).is(":visible");
@@ -97,7 +97,7 @@ $( function() {
 	                success: function( data ) {
 	                	console.log( data );
 	                	if( data.success ) {
-	                		$(location).attr('href', '/Bookhe/userProfile')
+	                		$(location).attr('href', '/Bookhe/userProfile');
 	                	} else {
 	                		// Fail message
 		                    $('#register-result').html("<div class='alert alert-danger'>");
@@ -119,7 +119,77 @@ $( function() {
 	                    //clear all fields
 	                    $('#registerForm').trigger("reset");
 	                },
-	            })
+	            });
+	        },
+	        filter: function() {
+	            return $(this).is(":visible");
+	        },
+	    });
+
+	    $("a[data-toggle=\"tab\"]").click(function(e) {
+	        e.preventDefault();
+	        $(this).tab("show");
+	    });
+	});
+	$(function() {
+	    $("#addBook input,textarea").jqBootstrapValidation({
+	        preventSubmit: true,
+	        submitError: function($form, event, errors) {
+	            // additional error messages or events
+	        },
+	        submitSuccess: function($form, event) {
+	            event.preventDefault();
+	            var bookISBN= $("input#bookISBN").val();
+	            var bookName = $("input#bookName").val();
+	            var bookAuthor = $("input#bookAuthor").val();
+	            var bookPublisher = $("input#bookPublisher").val();
+	            var bookPublishedYear = $("input#publishedYear").val();
+	            var bookCost = $("input#bookCost").val();
+	            var bookCategory = $("input#bookCategory").val();
+	            var eBookURL=$("input#eBookURL").val();
+
+	            $.ajax({
+	                url: "/Bookhe/addNewBook",
+	                type: "POST",
+	                dataType: "JSON",
+	                data: {
+	                	bookISBN: bookISBN,
+	                	bookName: bookName,
+	                	bookAuthor: bookAuthor,
+	                	bookPublisher: bookPublisher,
+	                	bookPublishedYear: bookPublishedYear,
+	                	bookCost: bookCost,
+	                	bookCategory: bookCategory,
+	                	eBookURL:eBookURL
+	                },
+	                cache: false,
+	                success: function(data) {
+	                	console.log(data);
+	                	if( data.success ) {
+	                		$(location).attr('href', '/Bookhe/userProfile');
+	                	} else {
+	                		// Fail message
+		                    $('#register-result').html("<div class='alert alert-danger'>");
+		                    $('#register-result > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+		                        .append("</button>");
+		                    $('#register-result > .alert-danger').append("<strong>Sorry, registration failed. Please try again!!");
+		                    $('#register-result > .alert-danger').append('</div>');
+		                    //clear all fields
+		                    $('#registerForm').trigger("reset");
+	                	}
+	                },
+	                error: function( error ) {
+	                    // Fail message
+	                	$('#register-result').html("<div class='alert alert-danger'>");
+	                    $('#register-result > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+	                        .append("</button>");
+	                    $('#register-result > .alert-danger').append("<strong>Sorry, it seems we encountered a server error. Please try again!!");
+	                    $('#register-result > .alert-danger').append('</div>');
+	                    //clear all fields
+	                    $('#registerForm').trigger("reset");
+	                    $('#addBook').trigger("reset");
+	                },
+	            });
 	        },
 	        filter: function() {
 	            return $(this).is(":visible");

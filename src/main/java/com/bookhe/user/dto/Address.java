@@ -2,20 +2,33 @@ package com.bookhe.user.dto;
 
 
 public class Address{
-	public String street;
-	public String city;
-	public String state;
+
+	private int addressId;
+	private String street;
+	private String city;
+	private String state;
 	
 	@Override
 	public String toString(){
-		return street+city+state;
+		return street+" "+city+" "+state;
 	}
+
 	public Address(String street, String city, String state) {
 		super();
 		this.street = street;
 		this.city = city;
 		this.state = state;
 	}
+
+
+	public int getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(int addressId) {
+		this.addressId = addressId;
+	}
+
 	public String getStreet() {
 		return street;
 	}
