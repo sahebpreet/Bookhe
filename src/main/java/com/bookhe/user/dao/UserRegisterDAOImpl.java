@@ -107,6 +107,7 @@ public class UserRegisterDAOImpl implements UserRegisterDAO{
 			//Getting the address id to get the address of the user
 			int addressId=srs.getInt(5);
 
+			user.setUID(srs.getInt(1));
 			user.setEmailId(username);
 			user.setContactNumber(srs.getString(3));
 			user.setPassword(srs.getString(4));

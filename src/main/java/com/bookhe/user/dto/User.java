@@ -1,6 +1,8 @@
 package com.bookhe.user.dto;
 
 public class User {
+
+	private int UID;
 	private String name;
 	private Address address;
 	private String contactNumber;
@@ -8,6 +10,12 @@ public class User {
 	private String password;
 	private double  points;
 	
+	public int getUID() {
+		return UID;
+	}
+	public void setUID(int uID) {
+		UID = uID;
+	}
 	public String getName() {
 		return name;
 	}
@@ -46,7 +54,6 @@ public class User {
 	}
 	public User(){
 		this("default name",new Address("venice","bookhe","enemy"),"1234","1234email","empty",100);
-		System.out.print("initializing blank details user");
 	}
 	public User(String name, Address address,
 			String contactNumber, String emailId, String password, double points) {

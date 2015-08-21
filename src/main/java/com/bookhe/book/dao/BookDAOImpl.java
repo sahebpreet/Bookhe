@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.bookhe.book.dto.Book;
+import com.bookhe.user.dto.User;
 
 
 public class BookDAOImpl implements BookDAO{
@@ -35,7 +36,7 @@ public class BookDAOImpl implements BookDAO{
 	}
 	
 	//add book using a book object and jdbc
-	public void addBook(Book book){
+	public void addBook(Book book, User user){
 		
 		if(jdbcTemplate!=null){
 			//warning line 
@@ -53,6 +54,16 @@ public class BookDAOImpl implements BookDAO{
 					+"'"+book.getCategory()+"',"
 					+"'"+book.getCost()+"');";
 			jdbcTemplate.update(sql);
+
+			String queryForBookId="select Book_Id from book where ISBN='"+book.getISBN()+"'";
+
+			int bookId=jdbcTemplate.queryForInt(queryForBookId);
+			book.setBookId(bookId);
+
+			String updateBorrower="insert into book_owner_borrower(Book_Id,Owner_Id) values("+bookId+", "+user.getUID()+")";
+
+			jdbcTemplate.execute(updateBorrower);
+
 		}
 		else{
 			System.out.println("JDBC Parameters not initialized");

@@ -13,6 +13,6 @@ public class BookService {
 	public void addBook(Book book){
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring.xml");
 		BookDAOImpl daoImpl = (BookDAOImpl) applicationContext.getBean("BookDAOBean");
-		daoImpl.addBook(book);
+		//daoImpl.addBook(book);
 	}
 }
